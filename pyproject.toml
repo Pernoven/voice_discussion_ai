@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "meeting-agent-system"
+version = "0.1.0"
+description = "Local-first meeting agent system with modular ear, brain, and voice components."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+audio = [
+  "numpy>=2.0",
+  "sounddevice>=0.5",
+]
+whisper = [
+  "openai-whisper",
+  "torch",
+]
+nemotron = [
+  "nemo-toolkit[asr] @ git+https://github.com/NVIDIA/NeMo.git@ba2cd63ef8de8a3183a3c02b310c66d616b9a991",
+  "torch>=2.6",
+]
+dev = [
+  "pytest>=8",
+]
+
+[project.scripts]
+aegis = "meeting_agent.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/meeting_agent"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/aegis.py",
+  "/benchmarks",
+  "/docs",
+  "/pyproject.toml",
+  "/README.md",
+  "/src",
+  "/tests",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
